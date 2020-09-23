@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/host_fragment">
+
+    <fragment
+        android:id="@+id/host_fragment"
+        android:name="cn.navigation.app.fragment.HostFragment"
+        android:label="HostFragment"
+        tools:layout="@layout/fragment_host">
+        <action
+            android:id="@+id/action_host_fragment_to_a_fragment"
+            app:destination="@id/a_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/a_fragment"
+        android:name="cn.navigation.app.fragment.AFragment"
+        android:label="AFragment"
+        tools:layout="@layout/fragment_child">
+        <action
+            android:id="@+id/action_a_fragment_to_b_fragment"
+            app:destination="@id/b_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/b_fragment"
+        android:name="cn.navigation.app.fragment.BFragment"
+        android:label="BFragment"
+        tools:layout="@layout/fragment_child">
+
+        <action
+            android:id="@+id/action_b_fragment_to_c_fragment"
+            app:destination="@id/c_fragment"
+            app:popUpTo="@id/host_fragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/c_fragment"
+        android:name="cn.navigation.app.fragment.CFragment"
+        android:label="CFragment"
+        tools:layout="@layout/fragment_child">
+
+        <action
+            android:id="@+id/action_c_fragment_self"
+            app:destination="@id/c_fragment"
+            app:launchSingleTop="true" />
+    </fragment>
+
+</navigation>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">KeepStateNavigator</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="host_content">To AFragment</string>
+    <string name="a_content">In AFragment</string>
+    <string name="b_content">In BFragment</string>
+    <string name="c_content">In CFragment</string>
+    <string name="empty">empty</string>
+</resources>

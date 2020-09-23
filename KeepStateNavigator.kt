@@ -87,6 +87,8 @@ class KeepStateNavigator(
                     if (hideFragment != null) ft.hide(hideFragment)
 
                     ft.addToBackStack(generateBackStackName(mBackStack.size, destId))
+                } else {
+                    ft.remove(mFragmentManager.fragments[0])
                 }
                 false
             }

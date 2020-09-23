@@ -10,10 +10,11 @@ import kotlinx.android.synthetic.main.fragment_child.*
 
 class AFragment : Fragment(R.layout.fragment_child) {
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        title.text = resources.getText(R.string.a_content)
+        title.text = "${resources.getText(R.string.a_content)}  ${System.currentTimeMillis()}"
         back.setOnClickListener {
             findNavController().popBackStack()
         }

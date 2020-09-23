@@ -47,7 +47,7 @@
         <action
             android:id="@+id/action_c_fragment_self"
             app:destination="@id/c_fragment"
-            app:launchSingleTop="true" />
+            app:launchSingleTop="false" />
     </keep_state_fragment>
 
 </navigation>

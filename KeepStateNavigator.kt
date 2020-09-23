@@ -57,10 +57,14 @@ class KeepStateNavigator(
         }
         ft.add(mContainerId, frag)
         ft.setPrimaryNavigationFragment(frag)
+
         @IdRes val destId = destination.id
         val initialNavigation = mBackStack.isEmpty()
+        if (!initialNavigation && mBackStack.size < mFragmentManager.fragments.size) {
+            ft.hide(mFragmentManager.fragments[mBackStack.size - 1])
+        }
         // TODO Build first class singleTop behavior for fragments
-        val isSingleTopReplacement = (navOptions != null && !initialNavigation
+        val isSingleTopAdd = (navOptions != null && !initialNavigation
                 && navOptions.shouldLaunchSingleTop()
                 && mBackStack.peekLast() == destId)
 
@@ -71,13 +75,9 @@ class KeepStateNavigator(
                 }
                 true
             }
-            isSingleTopReplacement -> {
+            isSingleTopAdd -> {
                 // Single Top means we only want one instance on the back stack
                 if (mBackStack.size > 1) {
-                    // If the Fragment to be replaced is on the FragmentManager's
-                    // back stack, a simple replace() isn't enough so we
-                    // remove it from the back stack and put our replacement
-                    // on the back stack in its place
                     mFragmentManager.popBackStack(
                         generateBackStackName(mBackStack.size, mBackStack.peekLast()),
                         FragmentManager.POP_BACK_STACK_INCLUSIVE
@@ -129,7 +129,7 @@ class KeepStateNavigator(
             )
             return false
         }
-        mFragmentManager.popBackStackImmediate(
+        mFragmentManager.popBackStack(
             generateBackStackName(mBackStack.size, mBackStack.peekLast()),
             FragmentManager.POP_BACK_STACK_INCLUSIVE
         )

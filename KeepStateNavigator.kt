@@ -40,10 +40,7 @@ class KeepStateNavigator(
         if (className[0] == '.') {
             className = mContext.packageName + className
         }
-        val frag = instantiateFragment(
-            mContext, mFragmentManager,
-            className, args
-        )
+        val frag = mFragmentManager.fragmentFactory.instantiate(mContext.classLoader, className)
         frag.arguments = args
         val ft = mFragmentManager.beginTransaction()
 
@@ -57,10 +54,6 @@ class KeepStateNavigator(
             popEnterAnim = if (popEnterAnim != -1) popEnterAnim else 0
             popExitAnim = if (popExitAnim != -1) popExitAnim else 0
             ft.setCustomAnimations(enterAnim, exitAnim, popEnterAnim, popExitAnim)
-        }
-        val currentFragment: Fragment? = mFragmentManager.primaryNavigationFragment
-        if (currentFragment != null) {
-            ft.hide(currentFragment)
         }
         ft.add(mContainerId, frag)
         ft.setPrimaryNavigationFragment(frag)
@@ -86,6 +79,10 @@ class KeepStateNavigator(
                         generateBackStackName(mBackStack.size, mBackStack.peekLast()),
                         FragmentManager.POP_BACK_STACK_INCLUSIVE
                     )
+                    val hideFragment =
+                        mFragmentManager.fragments[mFragmentManager.fragments.size - 2]
+                    if (hideFragment != null) ft.hide(hideFragment)
+
                     ft.addToBackStack(generateBackStackName(mBackStack.size, destId))
                 }
                 false
@@ -95,11 +92,17 @@ class KeepStateNavigator(
                 true
             }
         }
+
         if (navigatorExtras is Extras) {
             for ((key, value) in navigatorExtras.sharedElements) {
                 ft.addSharedElement(key!!, value!!)
             }
         }
+        val currentFragment: Fragment? = mFragmentManager.primaryNavigationFragment
+        if (isAdded && currentFragment != null) {
+            ft.hide(currentFragment)
+        }
+
         ft.setReorderingAllowed(true)
         ft.commit()
         // The commit succeeded, update our view of the world

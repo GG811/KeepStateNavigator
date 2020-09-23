@@ -123,7 +123,7 @@ class KeepStateNavigator(
             )
             return false
         }
-        mFragmentManager.popBackStack(
+        mFragmentManager.popBackStackImmediate(
             generateBackStackName(mBackStack.size, mBackStack.peekLast()),
             FragmentManager.POP_BACK_STACK_INCLUSIVE
         )

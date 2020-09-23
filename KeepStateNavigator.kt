@@ -66,6 +66,9 @@ class KeepStateNavigator(
 
         val isAdded = when {
             initialNavigation -> {
+                if (mFragmentManager.fragments.isNotEmpty()) {
+                    mFragmentManager.fragments.forEach { ft.remove(it) }
+                }
                 true
             }
             isSingleTopReplacement -> {
